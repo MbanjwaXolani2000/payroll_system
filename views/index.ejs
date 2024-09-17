@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payroll System</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+  <!-- Header Section -->
+  <header>
+    <div class="logo-container">
+      <img src="https://www.jmpsolutions.co.za/images/logo.png" alt="Company Logo">
+      <h1>Payroll Management System</h1>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Attendance Form -->
+    <section class="attendance-form">
+      <h2>Record Attendance</h2>
+      <form action="/attendance" method="POST">
+        <div class="form-group">
+          <label for="employee">Employee:</label>
+          <select name="employee" required>
+            <% employees.forEach(employee => { %>
+              <option value="<%= employee.id %>"><%= employee.name %></option>
+            <% }); %>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="site">Site:</label>
+          <select name="site" required>
+            <% sites.forEach(site => { %>
+              <option value="<%= site.id %>"><%= site.name %></option>
+            <% }); %>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="date">Date:</label>
+          <input type="date" name="date" required>
+        </div>
+
+        <!-- Normal Hours -->
+        <div class="form-group">
+          <label for="normal_hours">Normal Hours Worked:</label>
+          <input type="number" name="normal_hours" required>
+        </div>
+
+        <!-- Holiday Hours -->
+        <div class="form-group">
+          <label for="holiday_hours">Holiday Hours Worked:</label>
+          <input type="number" name="holiday_hours" required>
+        </div>
+
+        <!-- Night Shift Hours -->
+        <div class="form-group">
+          <label for="night_shift_hours">Night Shift Hours Worked:</label>
+          <input type="number" name="night_shift_hours" required>
+        </div>
+
+        <button type="submit">Submit Attendance</button>
+      </form>
+    </section>
+
+    <!-- Payroll Overview -->
+    <section class="payroll-overview">
+      <h2>Payroll Overview</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Employee</th>
+            <th>Site</th>
+            <th>Date</th>
+            <th>Hours Worked</th>
+            <th>Gross Salary</th>
+            <th>Net Salary</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (payrolls) { %>
+            <% payrolls.forEach(payroll => { %>
+              <tr>
+                <td><%= payroll.employee_name %></td>
+                <td><%= payroll.site_name %></td>
+                <td><%= payroll.date %></td>
+                <td><%= payroll.hours_worked %></td>
+                <td><%= payroll.gross_salary %></td>
+                <td><%= payroll.net_salary %></td>
+                <td><button>Generate Payslip</button></td>
+              </tr>
+            <% }); %>
+          <% } else { %>
+            <tr><td colspan="7">No payroll records found.</td></tr>
+          <% } %>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+</body>
+</html>
+
